@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Registration</title>
+<meta charset="UTF-8">
+<meta name="description" content="Html and css training">
+<meta name="keywords" content="HTML, CSS, JavaScript">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+    font-family: sans-serif;
+}
+.register-form{
+    width: 480px;
+    margin: 50px auto;
+    min-height: 300px;
+    padding: 45px 30px;
+}
+.register-form h2{
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+.register-form p{
+    text-align: center;
+    font-size: 17px;
+    color: #888888;
+    margin-bottom: 35px;
+}
+.inputes{
+    padding: 13px 10px;
+    width: 100%;
+    border: 2px solid #e8ecec;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    color: #000;
+}
+::placeholder{
+    color: #888888;
+    font-weight: 500;
+}
+input[type="submit"]{
+    padding: 10px 30px;
+    background: #1644ba;
+    color: #fff;
+    border: 1px solid #1644ba;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+span{
+    color: red;
+    width: 100%;
+    display: flex;
+    margin-bottom: 6px;
+}
+</style>
+</head>
+<body>
+<div class="register-form">
+<form name="forms" onsubmit="return validation()" action="https://www.google.com/">
+<h2>Registration Form</h2>
+<p>Create Your Account</p>
+<input type="text" placeholder="Full Name" name="fname" class="inputes">
+<span id="fullname_error"></span>
+<input type="email" placeholder="Email Address" name="email" class="inputes">
+<span id="email-error"></span>
+<input type="text" placeholder="Phone Number" name="phone" class="inputes">
+<span id="phone-error"></span>
+<input type="password" placeholder="Password" name="pwd" class="inputes">
+<span id="pwd-error"></span>
+<input type="password" placeholder="Confirm Password" name="cpwd" class="inputes">
+<span id="cpwd-error"></span>
+<input type="submit" name="Sign up" value="Sign Up">
+</form>
+</div>
+<script>
+function validation(){
+var fullname = document.forms.fname.value;
+var email = document.forms.email.value;
+var phone = document.forms.phone.value;
+var pwd = document.forms.pwd.value;
+var cpwd = document.forms.cpwd.value;
+var status =false
+if(fullname==""){
+document.getElementById("fullname_error").innerHTML="Full name is required";
+status=false;
+}
+else{
+    document.getElementById("fullname_error").innerHTML="";
+    status=true;
+}
+if(email==""){
+    document.getElementById("email-error").innerHTML="Email is required";
+    status=false;
+}
+else{
+    document.getElementById("email-error").innerHTML=""
+    status=true;
+}
+if(phone==""){
+    document.getElementById("phone-error").innerHTML="Phone Number is required";
+    status=false;
+}
+else{
+    document.getElementById("phone-error").innerHTML=""
+    status=true;
+}
+if(pwd==""){
+document.getElementById("pwd-error").innerHTML="Password is required";
+status=false;
+}
+else{
+document.getElementById("pwd-error").innerHTML=""
+status=true;  
+}
+if(cpwd=="" || pwd !== cpwd){
+document.getElementById("cpwd-error").innerHTML="Password is not Matched";
+status=false;
+}
+else{
+document.getElementById("cpwd-error").innerHTML=""
+status=true;  
+}
+return status;
+}
+</script>
+
+
+
+</body>
+</html>
