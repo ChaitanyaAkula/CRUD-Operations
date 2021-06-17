@@ -59,10 +59,10 @@ span{
 </head>
 <body>
 <div class="register-form">
-<form name="forms" onsubmit="return validation()" action="https://www.google.com/">
+<form name="forms" onsubmit="return validation()" action="http://localhost:8080/api/v1/conn/signup" method="POST">
 <h2>Registration Form</h2>
 <p>Create Your Account</p>
-<input type="text" placeholder="Full Name" name="fname" class="inputes">
+<input type="text" placeholder="Full Name" id="fname" name="fname" class="inputes">
 <span id="fullname_error"></span>
 <input type="email" placeholder="Email Address" name="email" class="inputes">
 <span id="email-error"></span>
@@ -77,52 +77,53 @@ span{
 </div>
 <script>
 function validation(){
-var fullname = document.forms.fname.value;
+var fullname = document.getElementById("fname").value;
 var email = document.forms.email.value;
 var phone = document.forms.phone.value;
 var pwd = document.forms.pwd.value;
 var cpwd = document.forms.cpwd.value;
+
 var status =false
-if(fullname==""){
-document.getElementById("fullname_error").innerHTML="Full name is required";
-status=false;
-}
-else{
-    document.getElementById("fullname_error").innerHTML="";
-    status=true;
-}
-if(email==""){
+
+if(fullname==""||email==""||phone==""||pwd==""){
+    if(fullname==""){
+    document.getElementById("fullname_error").innerHTML="Full name is required";
+    }else{
+        document.getElementById("fullname_error").innerHTML="";   
+    }
+    if(email==""){
     document.getElementById("email-error").innerHTML="Email is required";
-    status=false;
-}
-else{
-    document.getElementById("email-error").innerHTML=""
-    status=true;
-}
-if(phone==""){
+    }else{
+        document.getElementById("email-error").innerHTML=""; 
+    }
+    if(phone==""){
     document.getElementById("phone-error").innerHTML="Phone Number is required";
+    }else{
+        document.getElementById("phone-error").innerHTML="";
+    }
+    if(pwd==""){
+    document.getElementById("pwd-error").innerHTML="Password is required";
+    }else{
+        document.getElementById("pwd-error").innerHTML="";
+     }
     status=false;
 }
-else{
-    document.getElementById("phone-error").innerHTML=""
-    status=true;
+if(fullname!=""&&email!=""&&phone!=""&&pwd!=""){
+    if(cpwd=="" || pwd !== cpwd){
+        document.getElementById("pwd-error").innerHTML="";
+    document.getElementById("cpwd-error").innerHTML="Password is not Matched";
+    status=false;
+    }
+    else{
+    document.getElementById("cpwd-error").innerHTML=""
+    status=true;  
+    }
+ 
 }
-if(pwd==""){
-document.getElementById("pwd-error").innerHTML="Password is required";
-status=false;
-}
-else{
-document.getElementById("pwd-error").innerHTML=""
-status=true;  
-}
-if(cpwd=="" || pwd !== cpwd){
-document.getElementById("cpwd-error").innerHTML="Password is not Matched";
-status=false;
-}
-else{
-document.getElementById("cpwd-error").innerHTML=""
-status=true;  
-}
+
+
+
+
 return status;
 }
 </script>

@@ -34,7 +34,7 @@ func main(){
 	getRouter.HandleFunc("/api/v1/conn/read/",ReadFunction)
 	
 	router.HandleFunc("/api/v1/conn/update/{username}/",UpdateFunction).Methods("GET","POST")
-
+	router.HandleFunc("/api/v1/conn/signup",Register)
 	log.Fatalln(http.ListenAndServe(":8080",router))
 
 }
@@ -115,4 +115,21 @@ func Delete(w http.ResponseWriter,r *http.Request){
 		fmt.Println("Error Response",errRes.Error())
 	}
 	fmt.Println(res)
+}
+func Register(w http.ResponseWriter,r *http.Request){
+	fname:=r.FormValue("fname")
+	email:=r.FormValue("email")
+	phone:=r.FormValue("phone")
+	pwd:=r.FormValue("pwd")
+	fmt.Println(fname,email,phone,pwd)
+	stmt,errstmt:=dbconn.Prepare("INSERT INTO user SET firstname=?,lastname=?,email=?")
+	if errstmt!=nil{
+		fmt.Println("error Statement",errstmt.Error())
+	}
+	res,errRes:=stmt.Exec(fname,"",email)
+	if errRes!=nil{
+		fmt.Println("Error Response",errRes.Error())
+	}
+	fmt.Println(res)
+	
 }
