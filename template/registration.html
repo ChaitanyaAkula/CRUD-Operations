@@ -59,7 +59,7 @@ span{
 </head>
 <body>
 <div class="register-form">
-<form name="forms" onsubmit="return validation()" action="http://localhost:8080/api/v1/conn/signup" method="POST">
+<form name="forms"  method="POST">
 <h2>Registration Form</h2>
 <p>Create Your Account</p>
 <input type="text" placeholder="Full Name" id="fname" name="fname" class="inputes">
@@ -72,7 +72,7 @@ span{
 <span id="pwd-error"></span>
 <input type="password" placeholder="Confirm Password" name="cpwd" class="inputes">
 <span id="cpwd-error"></span>
-<input type="submit" name="Sign up" value="Sign Up">
+<input type="submit" name="Sign up" onclick="validation()" value="Sign Up">
 </form>
 </div>
 <script>
@@ -124,7 +124,18 @@ if(fullname!=""&&email!=""&&phone!=""&&pwd!=""){
 
 
 
-return status;
+if(status==true){
+    axios.post("http://localhost:8080/api/v1/conn/signup",JSON.stringify(
+        {
+            "fullName":fullname,
+            "email":email,
+            "phoneNumber":phone,
+            "passwordString":pwd
+        }
+    )).then((res)=>{
+        console.log(res)
+    })
+}
 }
 </script>
 

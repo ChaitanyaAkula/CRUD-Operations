@@ -10,6 +10,8 @@ import(
 	"io/ioutil"
 	"log"
 	"time"
+//	"os"
+	"CRUD/packages/cookie"
 )
 var dbconn *sql.DB
 type UserData struct{
@@ -17,6 +19,14 @@ type UserData struct{
 	Firstname string `json:"firstName"`
 	Lastname string `json:"lastName"`
 	Email string `json:"email"`
+
+}
+type UserData1 struct{
+
+	Fullname string `json:"fullName"`
+	Email string `json:"email"`
+	Phone string `json:"phoneNumber"`
+	Password string `json:"passwordString"`
 }
 func main(){
 
@@ -25,7 +35,10 @@ func main(){
 
 	fmt.Println(dbconn)
 	router:=mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/",Ping)
+	router.HandleFunc("/signup",Ping)
+	router.HandleFunc("/",Homepage)
+	router.PathPrefix("/template/").Handler(http.FileServer(http.Dir(".")))
+	
 	router.HandleFunc("/api/v1/conn/delete",Delete).Methods("POST")
 	postRouter:=router.Methods(http.MethodPost).Subrouter()
 	postRouter.HandleFunc("/api/v1/conn/create",CreateFunction)
@@ -38,10 +51,31 @@ func main(){
 	log.Fatalln(http.ListenAndServe(":8080",router))
 
 }
-func Ping(w http.ResponseWriter,r *http.Request){
-
+func Homepage(w http.ResponseWriter,r *http.Request){
+	cookie,_:=r.Cookie("id")
 	w.Header().Set("Content-Type","application-json")
-	json.NewEncoder(w).Encode(`{"success":true}`)
+	json.NewEncoder(w).Encode(`{"PAGE":`+cookie.Value+`}`)
+}
+func Ping(w http.ResponseWriter,r *http.Request){
+	 t:=time.Now()
+	cookie.SetCookie(w,"id","10")
+	fmt.Fprint(w,t)
+	//w.Header().Set("Content-Type","application-json")
+	//json.NewEncoder(w).Encode(`{"success":`+t+`}`)
+	
+//	http.ServeFile(w,r,"/home/gitty/snap/go/golangtraining/CRUD-Operations/template/registration.html")
+/*	file,err:=os.Open("/template/home.html")
+	if err!=nil{
+		http.Error(w,"file not found",404)
+
+	}
+	defer file.Close()
+	f1,err:=file.Stat()
+	if err!=nil{
+		http.Error(w,"file not found",404)
+		return
+	}
+	http.ServeContent(w,r,file.Name(),f1.ModTime(),file)*/
 }
 func CreateFunction(w http.ResponseWriter,r *http.Request){
 	fmt.Println(dbconn)
@@ -117,7 +151,7 @@ func Delete(w http.ResponseWriter,r *http.Request){
 	fmt.Println(res)
 }
 func Register(w http.ResponseWriter,r *http.Request){
-	fname:=r.FormValue("fname")
+/*	fname:=r.FormValue("fname")
 	email:=r.FormValue("email")
 	phone:=r.FormValue("phone")
 	pwd:=r.FormValue("pwd")
@@ -130,6 +164,14 @@ func Register(w http.ResponseWriter,r *http.Request){
 	if errRes!=nil{
 		fmt.Println("Error Response",errRes.Error())
 	}
-	fmt.Println(res)
-	
+	fmt.Println(res)*/
+	fmt.Println("Hello, World")
+	requestData:=new(UserData1)
+	body,_:=ioutil.ReadAll(r.Body)
+	err:=json.Unmarshal([]byte(body),&requestData)
+	if err!=nil{
+		fmt.Println(err.Error())
+	}
+	fmt.Println(*requestData)
+	//fmt.Fprint(w,"Got Values")
 }
