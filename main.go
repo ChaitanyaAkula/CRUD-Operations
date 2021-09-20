@@ -78,6 +78,7 @@ func Ping(w http.ResponseWriter,r *http.Request){
 	http.ServeContent(w,r,file.Name(),f1.ModTime(),file)*/
 }
 func CreateFunction(w http.ResponseWriter,r *http.Request){
+	//Create UserData
 	fmt.Println(dbconn)
 	requestData:=new(UserData)
 	body,_:=ioutil.ReadAll(r.Body)
